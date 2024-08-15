@@ -20,5 +20,5 @@ from API.urls import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",include("API.urls"))
+    path("downloadtiktok",include("API.urls"))
 ]

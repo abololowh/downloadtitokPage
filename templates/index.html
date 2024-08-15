@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة تحميل</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            margin: 20px;
+            margin-top: 120px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            text-align: center;
+
+        }
+        .form-group button {
+            padding: 10px 15px;
+            background-color: #000407;
+            border: none;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            width: 8cm;
+            font-size: 24px;
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Tik Tok downloader</h2>
+        <div class="form-group">
+            <input type="text" id="link-input" name="link-input" placeholder="الصق الرابط من تيك توك">
+        </div>
+        <div class="form-group">
+            <button onclick="downloadVideo()">Download</button>
+        </div>
+    </div>
+    <script>
+        function downloadVideo() {
+            const linkInput = document.getElementById('link-input').value;
+            fetch('/download/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ url: linkInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    
+</body>
+</html>
